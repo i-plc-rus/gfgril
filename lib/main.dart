@@ -89,12 +89,12 @@ class HomeScreen extends StatelessWidget {
                   DeviceCard(
                     name: 'Комбайн',
                     status: 'Подключено',
-                    imageUrl: 'https://app-v3.bnbhost.ru/r.jpg',
+                    imagePath: 'assets/images/r.jpg',
                   ),
                   DeviceCard(
                     name: 'Блендер',
                     status: 'Неактивно',
-                    imageUrl: 'https://app-v3.bnbhost.ru/m.jpg',
+                    imagePath: 'assets/images/m.jpg',
                   ),
                 ],
               ),
@@ -110,8 +110,7 @@ class HomeScreen extends StatelessWidget {
               RecipeCard(
                 title: 'Крем-суп из тыквы',
                 description: '15 мин · 3 шага',
-                imageUrl:
-                    'https://cdn.mos.cms.futurecdn.net/ZJTC8FrEMdNCsLmJrNdzCA.jpg',
+                imagePath: 'assets/images/ZJTC8FrEMdNCsLmJrNdzCA.jpg',
                 onTap: (context) {
                   Navigator.push(
                     context,
@@ -131,8 +130,7 @@ class HomeScreen extends StatelessWidget {
               RecipeCard(
                 title: 'Овсянка с ягодами',
                 description: '10 мин · 2 шага',
-                imageUrl:
-                    'https://wallpapers.com/images/hd/nutritious-overnight-oatmeal-with-mixed-berries-p0ubg77ox7m6h6iv.jpg',
+                imagePath: 'assets/images/nutritious-overnight-oatmeal-with-mixed-berries-p0ubg77ox7m6h6iv.jpg',
                 onTap: (context) {
                   Navigator.push(
                     context,
@@ -159,13 +157,14 @@ class HomeScreen extends StatelessWidget {
 class DeviceCard extends StatelessWidget {
   final String name;
   final String status;
-  final String imageUrl;
+  final String imagePath;
 
-  const DeviceCard(
-      {super.key,
-      required this.name,
-      required this.status,
-      required this.imageUrl});
+  const DeviceCard({
+    super.key,
+    required this.name,
+    required this.status,
+    required this.imagePath,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -187,8 +186,8 @@ class DeviceCard extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.network(
-              imageUrl,
+            child: Image.asset(
+              imagePath,
               height: 100,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) => const Icon(
@@ -222,14 +221,14 @@ class DeviceCard extends StatelessWidget {
 class RecipeCard extends StatelessWidget {
   final String title;
   final String description;
-  final String imageUrl;
+  final String imagePath;
   final Function(BuildContext) onTap;
 
   const RecipeCard({
     super.key,
     required this.title,
     required this.description,
-    required this.imageUrl,
+    required this.imagePath,
     required this.onTap,
   });
 
@@ -255,8 +254,8 @@ class RecipeCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.network(
-                imageUrl,
+              child: Image.asset(
+                imagePath,
                 width: 80,
                 height: 80,
                 fit: BoxFit.cover,
