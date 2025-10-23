@@ -83,7 +83,7 @@ class HomeScreen extends StatelessWidget {
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            title: const Text('GFGRIL - Главная'),
+            title: const Text('GFGRIL - главная'),
             backgroundColor: Colors.transparent, // Прозрачный AppBar
             flexibleSpace: GlassMorphism( // Стеклянный эффект для AppBar
               blur: 20,
@@ -104,7 +104,7 @@ class HomeScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
                 child: Text(
-                  'Устройства',
+                  'Мои устройства',
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
@@ -139,7 +139,7 @@ class HomeScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4.0),
                 child: Text(
-                  'Рецепты',
+                  'Новые рецепты',
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
