@@ -1,5 +1,6 @@
 // Flutter main UI file for Gfgril app
 import 'package:flutter/material.dart';
+import 'dart:ui';
 
 void main() {
   runApp(const GfgrilApp());
@@ -16,7 +17,7 @@ class GfgrilApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.light,
         primaryColor: const Color(0xFFF3E5AB),
-        scaffoldBackgroundColor: const Color(0xFFFDFCFB),
+        scaffoldBackgroundColor: Colors.transparent,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
@@ -38,93 +39,119 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Моя кухня'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {},
-          )
-        ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          const Text(
-            'Устройства',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
+    return Stack(
+      children: [
+        // ✅ Размытый фон / градиент в стиле Apple Home
+        Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFFF8EBD5),
+                Color(0xFFEAE2C6),
+                Color(0xFFD2D9C7),
+              ],
             ),
           ),
-          const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              DeviceCard(
-                name: 'Комбайн',
-                status: 'Подключено',
-                imageUrl: 'https://app-v3.bnbhost.ru/r.jpg',
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+            child: Container(color: Colors.white.withOpacity(0.05)),
+          ),
+        ),
+
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            title: const Text('Моя кухня'),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () {},
+              )
+            ],
+          ),
+          body: ListView(
+            padding: const EdgeInsets.all(16.0),
+            children: [
+              const Text(
+                'Устройства',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-              DeviceCard(
-                name: 'Блендер',
-                status: 'Неактивно',
-                imageUrl: 'https://app-v3.bnbhost.ru/m.jpg',
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DeviceCard(
+                    name: 'Комбайн',
+                    status: 'Подключено',
+                    imageUrl: 'https://app-v3.bnbhost.ru/r.jpg',
+                  ),
+                  DeviceCard(
+                    name: 'Блендер',
+                    status: 'Неактивно',
+                    imageUrl: 'https://app-v3.bnbhost.ru/m.jpg',
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              const Text(
+                'Рецепты',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 12),
+              RecipeCard(
+                title: 'Крем-суп из тыквы',
+                description: '15 мин · 3 шага',
+                imageUrl:
+                    'https://cdn.mos.cms.futurecdn.net/ZJTC8FrEMdNCsLmJrNdzCA.jpg',
+                onTap: (context) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const RecipeDetailScreen(
+                        title: 'Крем-суп из тыквы',
+                        steps: [
+                          'Нарежьте тыкву и обжарьте в мультиварке',
+                          'Добавьте воду, соль и специи',
+                          'Измельчите блендером до однородности',
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              RecipeCard(
+                title: 'Овсянка с ягодами',
+                description: '10 мин · 2 шага',
+                imageUrl:
+                    'https://wallpapers.com/images/hd/nutritious-overnight-oatmeal-with-mixed-berries-p0ubg77ox7m6h6iv.jpg',
+                onTap: (context) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const RecipeDetailScreen(
+                        title: 'Овсянка с ягодами',
+                        steps: [
+                          'Залейте овсянку молоком и разогрейте',
+                          'Добавьте ягоды и мёд по вкусу',
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
-          const SizedBox(height: 24),
-          const Text(
-            'Рецепты',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 12),
-          RecipeCard(
-            title: 'Крем-суп из тыквы',
-            description: '15 мин · 3 шага',
-            imageUrl: 'https://cdn.mos.cms.futurecdn.net/ZJTC8FrEMdNCsLmJrNdzCA.jpg',
-            onTap: (context) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const RecipeDetailScreen(
-                    title: 'Крем-суп из тыквы',
-                    steps: [
-                      'Нарежьте тыкву и обжарьте в мультиварке',
-                      'Добавьте воду, соль и специи',
-                      'Измельчите блендером до однородности',
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-          RecipeCard(
-            title: 'Овсянка с ягодами',
-            description: '10 мин · 2 шага',
-            imageUrl: 'https://wallpapers.com/images/hd/nutritious-overnight-oatmeal-with-mixed-berries-p0ubg77ox7m6h6iv.jpg',
-            onTap: (context) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const RecipeDetailScreen(
-                    title: 'Овсянка с ягодами',
-                    steps: [
-                      'Залейте овсянку молоком и разогрейте',
-                      'Добавьте ягоды и мёд по вкусу',
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -134,7 +161,11 @@ class DeviceCard extends StatelessWidget {
   final String status;
   final String imageUrl;
 
-  const DeviceCard({super.key, required this.name, required this.status, required this.imageUrl});
+  const DeviceCard(
+      {super.key,
+      required this.name,
+      required this.status,
+      required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -142,11 +173,11 @@ class DeviceCard extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.42,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.white.withOpacity(0.9),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withOpacity(0.15),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -154,7 +185,19 @@ class DeviceCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Image.network(imageUrl, height: 80, fit: BoxFit.contain),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.network(
+              imageUrl,
+              height: 100,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => const Icon(
+                Icons.kitchen,
+                size: 80,
+                color: Colors.grey,
+              ),
+            ),
+          ),
           const SizedBox(height: 8),
           Text(
             name,
@@ -198,7 +241,7 @@ class RecipeCard extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 16),
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.white.withOpacity(0.9),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
@@ -212,7 +255,17 @@ class RecipeCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.network(imageUrl, width: 80, height: 80, fit: BoxFit.cover),
+              child: Image.network(
+                imageUrl,
+                width: 80,
+                height: 80,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => const Icon(
+                  Icons.image_not_supported,
+                  size: 60,
+                  color: Colors.grey,
+                ),
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -260,7 +313,7 @@ class RecipeDetailScreen extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 12),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Colors.white.withOpacity(0.9),
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
