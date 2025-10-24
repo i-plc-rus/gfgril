@@ -40,7 +40,7 @@ class _RecipeListState extends State<RecipeList> with TickerProviderStateMixin {
       "description":
           "Традиционный традиционный борщ с говядиной и свежей капустой. Идеально подходит для семейного обеда.",
       "image":
-          "https://images.unsplash.com/photo-1606063948261-95e16cac679e",
+          "https://images.unsplash.com/photo-1606063948261-95e16cac679e.jpg",
       "semanticLabel":
           "Тарелка красного борща с говядиной, капустой и сметаной на деревянном столе",
       "cookingTime": 90,
@@ -59,7 +59,7 @@ class _RecipeListState extends State<RecipeList> with TickerProviderStateMixin {
       "description":
           "Ароматный плов с бараниной, морковью и специями. Готовится в мультиварке для идеального результата.",
       "image":
-          "https://images.unsplash.com/photo-1708269291204-70f0d4677244",
+          "https://images.unsplash.com/photo-1708269291204-70f0d4677244.jpg",
       "semanticLabel":
           "Тарелка узбекского плова с рисом, мясом и морковью, украшенная зеленью",
       "cookingTime": 120,
@@ -78,7 +78,7 @@ class _RecipeListState extends State<RecipeList> with TickerProviderStateMixin {
       "description":
           "Французское овощное рагу с баклажанами, кабачками и томатами. Легкое и полезное блюдо.",
       "image":
-          "https://images.unsplash.com/photo-1629536126224-7b88cb6cc823",
+          "https://app-v3.bnbhost.ru/photo-1629536126224-7b88cb6cc823.jpg",
       "semanticLabel":
           "Красочное овощное рагу рататуй с нарезанными кружочками баклажанов, кабачков и помидоров",
       "cookingTime": 45,
@@ -97,7 +97,7 @@ class _RecipeListState extends State<RecipeList> with TickerProviderStateMixin {
       "description":
           "Итальянский десерт с маскарпоне, кофе и какао. Нежный и воздушный, тает во рту.",
       "image":
-          "https://images.unsplash.com/photo-1594356224891-56876e5f9481",
+          "https://app-v3.bnbhost.ru/photo-1594356224891-56876e5f9481.jpg",
       "semanticLabel":
           "Порция тирамису в стеклянной форме, посыпанная какао-порошком",
       "cookingTime": 30,
@@ -116,7 +116,7 @@ class _RecipeListState extends State<RecipeList> with TickerProviderStateMixin {
       "description":
           "Полезный зеленый смузи со шпинатом, яблоком и имбирем. Заряд энергии на весь день.",
       "image":
-          "https://images.unsplash.com/photo-1694944477918-a23f25d8dd78",
+          "https://app-v3.bnbhost.ru/photo-1694944477918-a23f25d8dd78",
       "semanticLabel":
           "Стакан зеленого смузи с трубочкой, рядом лежат листья шпината и яблоко",
       "cookingTime": 10,
@@ -135,7 +135,7 @@ class _RecipeListState extends State<RecipeList> with TickerProviderStateMixin {
       "description":
           "Итальянская закуска с хрустящим хлебом, свежими томатами и базиликом.",
       "image":
-          "https://images.unsplash.com/photo-1625938395857-9cc28c63dbfd",
+          "https://app-v3.bnbhost.ru/photo-1625938395857-9cc28c63dbfd.jpg",
       "semanticLabel":
           "Несколько кусочков брускетты с нарезанными помидорами и зеленью на деревянной доске",
       "cookingTime": 15,

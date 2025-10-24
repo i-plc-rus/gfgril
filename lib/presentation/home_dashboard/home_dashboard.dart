@@ -347,7 +347,7 @@ class _HomeDashboardState extends State<HomeDashboard>
                         ),
                         SizedBox(height: 1.h),
                         SizedBox(
-                          height: 5.h,
+                          height: 7.h,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             padding: EdgeInsets.symmetric(horizontal: 4.w),
