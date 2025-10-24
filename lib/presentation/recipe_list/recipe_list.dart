@@ -36,9 +36,9 @@ class _RecipeListState extends State<RecipeList> with TickerProviderStateMixin {
   final List<Map<String, dynamic>> _allRecipes = [
     {
       "id": 1,
-      "name": "Борщ украинский",
+      "name": "Борщ традиционный",
       "description":
-          "Традиционный украинский борщ с говядиной и свежей капустой. Идеально подходит для семейного обеда.",
+          "Традиционный традиционный борщ с говядиной и свежей капустой. Идеально подходит для семейного обеда.",
       "image":
           "https://images.unsplash.com/photo-1606063948261-95e16cac679e",
       "semanticLabel":
