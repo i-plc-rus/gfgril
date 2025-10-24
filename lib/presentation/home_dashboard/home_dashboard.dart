@@ -216,6 +216,24 @@ class _HomeDashboardState extends State<HomeDashboard>
     return 'Добрый вечер!';
   }
 
+  IconData getIconData(String iconName) {
+    switch (iconName) {
+      case 'power':
+        return Icons.power_settings_new;
+      case 'timer':
+        return Icons.timer;
+      case 'play':
+        return Icons.play_arrow;
+      case 'pause':
+        return Icons.pause;
+      case 'notifications':
+        return Icons.notifications;
+      // добавляй свои иконки по названию
+      default:
+        return Icons.device_unknown;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool hasConnectedDevices = _connectedAppliances.isNotEmpty;
@@ -247,91 +265,109 @@ class _HomeDashboardState extends State<HomeDashboard>
             child: Column(
               children: [
                 // Header
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-                  decoration: BoxDecoration(
-                    color: AppTheme.surfaceLight.withValues(alpha: 0.95),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppTheme.shadowLight.withValues(alpha: 0.1),
-                        blurRadius: 4,
-                        offset: const Offset(0, 1),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _getGreeting(),
-                              style: AppTheme.lightTheme.textTheme.headlineSmall
-                                  ?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: AppTheme.textPrimaryDark
-                              ),
-                            ),
-                            SizedBox(height: 0.5.h),
-                            Text(
-                              hasConnectedDevices
-                                  ? 'У вас ${_connectedAppliances.length} подключенных устройств'
-                                  : 'Подключите ваши GFGRIL устройства',
-                              style: AppTheme.lightTheme.textTheme.bodyMedium
-                                  ?.copyWith(
-                                color: AppTheme.textSecondary,
-                              ),
-                            ),
-                          ],
+// Header - Dark Glass Effect
+                ClipRRect(
+                  borderRadius:
+                      BorderRadius.circular(20), // скругление как у стекла
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(
+                        sigmaX: 20, sigmaY: 20), // размытие фона
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                      decoration: BoxDecoration(
+                        color: Colors.black
+                            .withOpacity(0.3), // тёмное тонированное стекло
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: Colors.white
+                              .withOpacity(0.1), // тонкая граница как у стекла
                         ),
-                      ),
-                      Stack(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _notificationCount = 0;
-                              });
-                            },
-                            icon: CustomIconWidget(
-                              iconName: 'notifications',
-                              color: AppTheme.primaryLight,
-                              size: 6.w,
-                            ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
                           ),
-                          if (_notificationCount > 0)
-                            Positioned(
-                              right: 8,
-                              top: 8,
-                              child: Container(
-                                padding: EdgeInsets.all(0.5.w),
-                                decoration: BoxDecoration(
-                                  color: AppTheme.errorColor,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                constraints: BoxConstraints(
-                                  minWidth: 4.w,
-                                  minHeight: 4.w,
-                                ),
-                                child: Text(
-                                  _notificationCount > 9
-                                      ? '9+'
-                                      : _notificationCount.toString(),
-                                  style: AppTheme
-                                      .lightTheme.textTheme.labelSmall
-                                      ?.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 8.sp,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
                         ],
                       ),
-                    ],
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  _getGreeting(),
+                                  style: AppTheme
+                                      .lightTheme.textTheme.headlineSmall
+                                      ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    color: AppTheme.textPrimaryDark,
+                                  ),
+                                ),
+                                SizedBox(height: 0.5.h),
+                                Text(
+                                  hasConnectedDevices
+                                      ? 'У вас ${_connectedAppliances.length} подключенных устройств'
+                                      : 'Подключите ваши GFGRIL устройства',
+                                  style: AppTheme
+                                      .lightTheme.textTheme.bodyMedium
+                                      ?.copyWith(
+                                    color: AppTheme.textSecondary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Stack(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _notificationCount = 0;
+                                  });
+                                },
+                                icon: CustomIconWidget(
+                                  iconName: 'notifications',
+                                  color: AppTheme.primaryLight,
+                                  size: 6.w,
+                                ),
+                              ),
+                              if (_notificationCount > 0)
+                                Positioned(
+                                  right: 8,
+                                  top: 8,
+                                  child: Container(
+                                    padding: EdgeInsets.all(0.5.w),
+                                    decoration: BoxDecoration(
+                                      color: AppTheme.errorColor,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    constraints: BoxConstraints(
+                                      minWidth: 4.w,
+                                      minHeight: 4.w,
+                                    ),
+                                    child: Text(
+                                      _notificationCount > 9
+                                          ? '9+'
+                                          : _notificationCount.toString(),
+                                      style: AppTheme
+                                          .lightTheme.textTheme.labelSmall
+                                          ?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 8.sp,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
 
@@ -347,43 +383,77 @@ class _HomeDashboardState extends State<HomeDashboard>
                         children: [
                           SizedBox(height: 2.h),
 
-                          // Quick actions
-                          if (hasConnectedDevices) ...[
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 3.w, vertical: 0.8.h),
-                              child: Text(
-                                'Быстрые действия',
-                                style: AppTheme.lightTheme.textTheme.titleMedium
-                                    ?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  //color: AppTheme.primaryLight,
-                                  color: AppTheme.textPrimaryDark,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 1.h),
-                            SizedBox(
-                              height: 5.8.h,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 4.w, vertical: 0.3.h),
-                                itemCount: _quickActions.length,
-                                itemBuilder: (context, index) {
-                                  final action = _quickActions[index];
-                                  return QuickActionChipWidget(
-                                    title: action['title'] as String,
-                                    iconName: action['icon'] as String,
-                                    isActive: action['isActive'] as bool,
-                                    onTap: () => _handleQuickActionTap(
-                                        action['title'] as String),
-                                  );
-                                },
-                              ),
-                            ),
-                            SizedBox(height: 2.h),
-                          ],
+                          // Quick actions - Glass Effect
+// Quick actions - Glass Effect (enhanced)
+if (hasConnectedDevices) ...[
+  Padding(
+    padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.8.h),
+    child: Text(
+      'Быстрые действия',
+      style: AppTheme.lightTheme.textTheme.titleMedium?.copyWith(
+        fontWeight: FontWeight.w600,
+        color: Colors.white,
+      ),
+    ),
+  ),
+  SizedBox(height: 1.h),
+  SizedBox(
+    height: 6.h,
+    child: ListView.builder(
+      scrollDirection: Axis.horizontal,
+      padding: EdgeInsets.symmetric(horizontal: 4.w),
+      itemCount: _quickActions.length,
+      itemBuilder: (context, index) {
+        final action = _quickActions[index];
+        return Padding(
+          padding: EdgeInsets.only(right: 8.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: GestureDetector(
+                onTap: () => _handleQuickActionTap(action['title'] as String),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.15),
+                      width: 1,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        getIconData(action['icon'] as String),
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      SizedBox(width: 6),
+                      Text(
+                        action['title'] as String,
+                        style: AppTheme.lightTheme.textTheme.bodyMedium?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    ),
+  ),
+  SizedBox(height: 2.h),
+],
+
+
+
 
                           // Active cooking
                           if (_activeCooking != null) ...[
@@ -393,9 +463,8 @@ class _HomeDashboardState extends State<HomeDashboard>
                                 'Активная готовка',
                                 style: AppTheme.lightTheme.textTheme.titleMedium
                                     ?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  color: AppTheme.textPrimaryDark
-                                ),
+                                        fontWeight: FontWeight.w600,
+                                        color: AppTheme.textPrimaryDark),
                               ),
                             ),
                             ActiveCookingWidget(
@@ -418,9 +487,8 @@ class _HomeDashboardState extends State<HomeDashboard>
                                       style: AppTheme
                                           .lightTheme.textTheme.titleMedium
                                           ?.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        color: AppTheme.textPrimaryDark
-                                      ),
+                                              fontWeight: FontWeight.w600,
+                                              color: AppTheme.textPrimaryDark),
                                     ),
                                   ),
                                   TextButton.icon(
