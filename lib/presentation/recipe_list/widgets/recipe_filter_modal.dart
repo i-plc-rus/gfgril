@@ -29,8 +29,8 @@ class _RecipeFilterModalState extends State<RecipeFilterModal> {
   ];
   final List<String> _difficulties = ['Легко', 'Средне', 'Сложно'];
   final List<String> _appliances = [
-    'Мультиварка',
-    'Кухонный комбайн',
+    'Аэрогриль',
+    'Кухонный робот',
     'Блендер',
     'Пароварка'
   ];

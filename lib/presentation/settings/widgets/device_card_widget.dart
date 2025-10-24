@@ -184,7 +184,7 @@ class DeviceCardWidget extends StatelessWidget {
       case 'кухонный робот':
       case 'food processor':
         return 'blender';
-      case 'мультиварка':
+      case 'аэрогриль':
       case 'multi-cooker':
         return 'rice_bowl';
       case 'аэрогриль':

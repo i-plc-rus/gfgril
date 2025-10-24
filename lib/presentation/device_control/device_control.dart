@@ -24,7 +24,7 @@ class _DeviceControlState extends State<DeviceControl>
   // Device data
   final Map<String, dynamic> _deviceData = {
     "id": "gfgril_001",
-    "name": "GFGRIL Smart Мультиварка",
+    "name": "GFGRIL Smart Аэрогриль",
     "model": "GSM-2024 Pro",
     "type": "multi_cooker",
     "currentMode": "Варка",

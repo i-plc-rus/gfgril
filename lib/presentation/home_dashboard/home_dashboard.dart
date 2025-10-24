@@ -24,7 +24,7 @@ class _HomeDashboardState extends State<HomeDashboard>
   final List<Map<String, dynamic>> _connectedAppliances = [
     {
       "id": 1,
-      "name": "GFGRIL Мультиварка Pro",
+      "name": "GFGRIL Аэрогриль Pro",
       "icon": "kitchen",
       "isActive": true,
       "status": "Готовка риса",
@@ -35,7 +35,7 @@ class _HomeDashboardState extends State<HomeDashboard>
     },
     {
       "id": 2,
-      "name": "GFGRIL Кухонный комбайн",
+      "name": "GFGRIL Кухонный робот",
       "icon": "blender",
       "isActive": false,
       "status": "Готов к работе",

@@ -31,7 +31,7 @@ class _DeviceListWidgetState extends State<DeviceListWidget> {
     _discoveredDevices = [
       {
         'id': 'gfgril_001',
-        'name': 'GFGRIL Мультиварка Pro',
+        'name': 'GFGRIL Аэрогриль Pro',
         'model': 'GF-MC-2024',
         'type': 'multicooker',
         'signalStrength': -45,
@@ -45,7 +45,7 @@ class _DeviceListWidgetState extends State<DeviceListWidget> {
       },
       {
         'id': 'gfgril_002',
-        'name': 'GFGRIL Кухонный комбайн',
+        'name': 'GFGRIL Кухонный роботы',
         'model': 'GF-FP-2024',
         'type': 'food_processor',
         'signalStrength': -62,
