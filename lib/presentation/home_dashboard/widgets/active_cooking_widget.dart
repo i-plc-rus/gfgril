@@ -54,15 +54,16 @@ class ActiveCookingWidget extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: EdgeInsets.all(4.w),
+        padding: EdgeInsets.all(3.w), // Уменьшили отступы
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Первая строка: иконка, название и таймер
             Row(
               children: [
                 Container(
-                  width: 12.w,
-                  height: 12.w,
+                  width: 10.w, // Уменьшили размер иконки
+                  height: 10.w,
                   decoration: BoxDecoration(
                     color: AppTheme.secondaryLight,
                     borderRadius: BorderRadius.circular(8),
@@ -70,7 +71,7 @@ class ActiveCookingWidget extends StatelessWidget {
                   child: CustomIconWidget(
                     iconName: 'restaurant',
                     color: Colors.white,
-                    size: 6.w,
+                    size: 5.w, // Уменьшили размер иконки
                   ),
                 ),
                 SizedBox(width: 3.w),
@@ -80,18 +81,17 @@ class ActiveCookingWidget extends StatelessWidget {
                     children: [
                       Text(
                         recipeName,
-                        style:
-                            AppTheme.lightTheme.textTheme.titleMedium?.copyWith(
+                        style: AppTheme.lightTheme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                           color: AppTheme.primaryLight,
                         ),
                         overflow: TextOverflow.ellipsis,
+                        maxLines: 1, // Ограничили в одну строку
                       ),
-                      SizedBox(height: 0.5.h),
+                      SizedBox(height: 0.3.h), // Уменьшили отступ
                       Text(
                         isPaused ? 'Приостановлено' : 'Готовится',
-                        style:
-                            AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
+                        style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
                           color: isPaused
                               ? AppTheme.warningColor
                               : AppTheme.successColor,
@@ -100,49 +100,41 @@ class ActiveCookingWidget extends StatelessWidget {
                     ],
                   ),
                 ),
+                SizedBox(width: 2.w),
+                // Компактный таймер
                 Container(
-                  width: 18.w,
-                  height: 18.w,
+                  width: 14.w, // Уменьшили размер
+                  height: 14.w,
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
                       CircularProgressIndicator(
                         value: progress,
-                        strokeWidth: 4,
+                        strokeWidth: 3, // Уменьшили толщину линии
                         backgroundColor: AppTheme.borderLight,
                         valueColor: AlwaysStoppedAnimation<Color>(
                             AppTheme.secondaryLight),
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '${remainingTime}',
-                            style: AppTheme.lightTheme.textTheme.titleSmall
-                                ?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: AppTheme.primaryLight,
-                            ),
-                          ),
-                          Text(
-                            'мин',
-                            style: AppTheme.lightTheme.textTheme.labelSmall
-                                ?.copyWith(
-                              color: AppTheme.textSecondary,
-                              fontSize: 8.sp,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        '$remainingTime',
+                        style: AppTheme.lightTheme.textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: AppTheme.primaryLight,
+                          fontSize: 9.sp, // Уменьшили размер шрифта
+                        ),
                       ),
                     ],
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 2.h),
+            
+            SizedBox(height: 1.5.h), // Уменьшили отступ
+            
+            // Текущий шаг
             Container(
               width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.5.h),
+              padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 1.2.h),
               decoration: BoxDecoration(
                 color: AppTheme.lightTheme.colorScheme.surface
                     .withValues(alpha: 0.7),
@@ -157,7 +149,10 @@ class ActiveCookingWidget extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            SizedBox(height: 2.h),
+            
+            SizedBox(height: 1.5.h), // Уменьшили отступ
+            
+            // Кнопки управления
             Row(
               children: [
                 Expanded(
@@ -166,31 +161,37 @@ class ActiveCookingWidget extends StatelessWidget {
                     icon: CustomIconWidget(
                       iconName: isPaused ? 'play_arrow' : 'pause',
                       color: Colors.white,
-                      size: 4.w,
+                      size: 3.5.w, // Уменьшили размер иконки
                     ),
-                    label: Text(isPaused ? 'Продолжить' : 'Пауза'),
+                    label: Text(
+                      isPaused ? 'Продолжить' : 'Пауза',
+                      style: TextStyle(fontSize: 9.sp), // Уменьшили шрифт
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: isPaused
                           ? AppTheme.successColor
                           : AppTheme.warningColor,
-                      padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                      padding: EdgeInsets.symmetric(vertical: 1.2.h), // Уменьшили отступы
                     ),
                   ),
                 ),
-                SizedBox(width: 3.w),
+                SizedBox(width: 2.w), // Уменьшили отступ между кнопками
                 Expanded(
                   child: OutlinedButton.icon(
                     onPressed: onStop,
                     icon: CustomIconWidget(
                       iconName: 'stop',
                       color: AppTheme.errorColor,
-                      size: 4.w,
+                      size: 3.5.w, // Уменьшили размер иконки
                     ),
-                    label: const Text('Стоп'),
+                    label: Text(
+                      'Стоп',
+                      style: TextStyle(fontSize: 9.sp), // Уменьшили шрифт
+                    ),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppTheme.errorColor,
                       side: BorderSide(color: AppTheme.errorColor),
-                      padding: EdgeInsets.symmetric(vertical: 1.5.h),
+                      padding: EdgeInsets.symmetric(vertical: 1.2.h), // Уменьшили отступы
                     ),
                   ),
                 ),
