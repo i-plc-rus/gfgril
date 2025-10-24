@@ -181,13 +181,13 @@ class DeviceCardWidget extends StatelessWidget {
 
   String _getDeviceIcon(String deviceType) {
     switch (deviceType.toLowerCase()) {
-      case 'кухонный комбайн':
+      case 'кухонный робот':
       case 'food processor':
         return 'blender';
       case 'мультиварка':
       case 'multi-cooker':
         return 'rice_bowl';
-      case 'духовка':
+      case 'аэрогриль':
       case 'oven':
         return 'oven';
       default:

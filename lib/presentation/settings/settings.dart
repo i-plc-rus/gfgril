@@ -30,8 +30,8 @@ class _SettingsState extends State<Settings> {
   // Mock connected devices data
   final List<Map<String, dynamic>> _connectedDevices = [
 { 'id': 1,
-'name': 'Кухонный комбайн GFGRIL Pro',
-'type': 'Кухонный комбайн',
+'name': 'Кухонный робот GFGRIL Pro',
+'type': 'Кухонный робот',
 'isConnected': true,
 'lastSeen': '2025-10-24 05:45',
 'batteryLevel': 85,
@@ -44,8 +44,8 @@ class _SettingsState extends State<Settings> {
 'batteryLevel': 42,
 },
 { 'id': 3,
-'name': 'Духовка GFGRIL Elite',
-'type': 'Духовка',
+'name': 'Аэрогриль GFGRIL Elite',
+'type': 'Аэрогриль',
 'isConnected': true,
 'lastSeen': '2025-10-24 06:00',
 'batteryLevel': 100,
