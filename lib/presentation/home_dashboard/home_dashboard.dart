@@ -1,3 +1,5 @@
+import 'dart:ui'; // Для ImageFilter
+
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
@@ -115,7 +117,6 @@ class _HomeDashboardState extends State<HomeDashboard>
   }
 
   void _handleApplianceSwipeRight(Map<String, dynamic> appliance) {
-    // Quick start cooking
     setState(() {
       final applianceId = appliance['id'] as int;
       final index = _connectedAppliances
@@ -137,7 +138,6 @@ class _HomeDashboardState extends State<HomeDashboard>
   }
 
   void _handleApplianceSwipeLeft(Map<String, dynamic> appliance) {
-    // Open device settings
     Navigator.pushNamed(context, '/device-control');
   }
 
@@ -148,8 +148,6 @@ class _HomeDashboardState extends State<HomeDashboard>
   void _handleQuickActionTap(String title) {
     switch (title) {
       case 'Избранные рецепты':
-        Navigator.pushNamed(context, '/recipe-list');
-        break;
       case 'Недавние':
         Navigator.pushNamed(context, '/recipe-list');
         break;
@@ -184,7 +182,6 @@ class _HomeDashboardState extends State<HomeDashboard>
               onPressed: () {
                 setState(() {
                   _activeCooking = null;
-                  // Update appliance status
                   final activeAppliance = _connectedAppliances.firstWhere(
                     (a) => (a['id'] as int) == 1,
                     orElse: () => <String, dynamic>{},
@@ -214,13 +211,9 @@ class _HomeDashboardState extends State<HomeDashboard>
 
   String _getGreeting() {
     final hour = DateTime.now().hour;
-    if (hour < 12) {
-      return 'Доброе утро!';
-    } else if (hour < 17) {
-      return 'Добрый день!';
-    } else {
-      return 'Добрый вечер!';
-    }
+    if (hour < 12) return 'Доброе утро!';
+    if (hour < 17) return 'Добрый день!';
+    return 'Добрый вечер!';
   }
 
   @override
@@ -228,232 +221,258 @@ class _HomeDashboardState extends State<HomeDashboard>
     final bool hasConnectedDevices = _connectedAppliances.isNotEmpty;
 
     return Scaffold(
-      backgroundColor: AppTheme.backgroundLight,
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Header with greeting and notifications
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
-              decoration: BoxDecoration(
-                color: AppTheme.surfaceLight.withValues(alpha: 0.95),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppTheme.shadowLight.withValues(alpha: 0.1),
-                    blurRadius: 4,
-                    offset: const Offset(0, 1),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          _getGreeting(),
-                          style: AppTheme.lightTheme.textTheme.headlineSmall
-                              ?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: AppTheme.primaryLight,
-                          ),
-                        ),
-                        SizedBox(height: 0.5.h),
-                        Text(
-                          hasConnectedDevices
-                              ? 'У вас ${_connectedAppliances.length} подключенных устройств'
-                              : 'Подключите ваши GFGRIL устройства',
-                          style: AppTheme.lightTheme.textTheme.bodyMedium
-                              ?.copyWith(
-                            color: AppTheme.textSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Stack(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _notificationCount = 0;
-                          });
-                        },
-                        icon: CustomIconWidget(
-                          iconName: 'notifications',
-                          color: AppTheme.primaryLight,
-                          size: 6.w,
-                        ),
-                      ),
-                      if (_notificationCount > 0)
-                        Positioned(
-                          right: 8,
-                          top: 8,
-                          child: Container(
-                            padding: EdgeInsets.all(0.5.w),
-                            decoration: BoxDecoration(
-                              color: AppTheme.errorColor,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            constraints: BoxConstraints(
-                              minWidth: 4.w,
-                              minHeight: 4.w,
-                            ),
-                            child: Text(
-                              _notificationCount > 9
-                                  ? '9+'
-                                  : _notificationCount.toString(),
-                              style: AppTheme.lightTheme.textTheme.labelSmall
-                                  ?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 8.sp,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                ],
+      backgroundColor: Colors.transparent,
+      body: Stack(
+        children: [
+          // Фоновое изображение
+          SizedBox.expand(
+            child: Image.asset(
+              'assets/images/d88804afc3dde22148fe471fb0e56f34.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+
+          // Размытие + затемнение
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+              child: Container(
+                color: Colors.black.withOpacity(0.2),
               ),
             ),
+          ),
 
-            // Main content
-            Expanded(
-              child: RefreshIndicator(
-                onRefresh: _refreshData,
-                color: AppTheme.secondaryLight,
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          // Основной контент
+          SafeArea(
+            child: Column(
+              children: [
+                // Header
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                  decoration: BoxDecoration(
+                    color: AppTheme.surfaceLight.withValues(alpha: 0.95),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppTheme.shadowLight.withValues(alpha: 0.1),
+                        blurRadius: 4,
+                        offset: const Offset(0, 1),
+                      ),
+                    ],
+                  ),
+                  child: Row(
                     children: [
-                      SizedBox(height: 2.h),
-
-                      // Quick actions
-                      if (hasConnectedDevices) ...[
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.8.h),
-                          child: Text(
-                            'Быстрые действия',
-                            style: AppTheme.lightTheme.textTheme.titleMedium
-                                ?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: AppTheme.primaryLight,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _getGreeting(),
+                              style: AppTheme.lightTheme.textTheme.headlineSmall
+                                  ?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: AppTheme.textPrimaryDark
+                              ),
                             ),
-                          ),
+                            SizedBox(height: 0.5.h),
+                            Text(
+                              hasConnectedDevices
+                                  ? 'У вас ${_connectedAppliances.length} подключенных устройств'
+                                  : 'Подключите ваши GFGRIL устройства',
+                              style: AppTheme.lightTheme.textTheme.bodyMedium
+                                  ?.copyWith(
+                                color: AppTheme.textSecondary,
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(height: 1.h),
-                        SizedBox(
-                          height: 5.8.h,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 0.3.h),
-                            itemCount: _quickActions.length,
-                            itemBuilder: (context, index) {
-                              final action = _quickActions[index];
-                              return QuickActionChipWidget(
-                                title: action['title'] as String,
-                                iconName: action['icon'] as String,
-                                isActive: action['isActive'] as bool,
-                                onTap: () => _handleQuickActionTap(
-                                    action['title'] as String),
-                              );
+                      ),
+                      Stack(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _notificationCount = 0;
+                              });
                             },
-                          ),
-                        ),
-                        SizedBox(height: 2.h),
-                      ],
-
-                      // Active cooking section
-                      if (_activeCooking != null) ...[
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 4.w),
-                          child: Text(
-                            'Активная готовка',
-                            style: AppTheme.lightTheme.textTheme.titleMedium
-                                ?.copyWith(
-                              fontWeight: FontWeight.w600,
+                            icon: CustomIconWidget(
+                              iconName: 'notifications',
                               color: AppTheme.primaryLight,
+                              size: 6.w,
                             ),
                           ),
-                        ),
-                        ActiveCookingWidget(
-                          activeCooking: _activeCooking,
-                          onPause: _pauseActiveCooking,
-                          onStop: _stopActiveCooking,
-                        ),
-                        SizedBox(height: 2.h),
-                      ],
-
-                      // Connected devices section
-                      if (hasConnectedDevices) ...[
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 4.w),
-                          child: Row(
-                            children: [
-                              Expanded(
+                          if (_notificationCount > 0)
+                            Positioned(
+                              right: 8,
+                              top: 8,
+                              child: Container(
+                                padding: EdgeInsets.all(0.5.w),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.errorColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                constraints: BoxConstraints(
+                                  minWidth: 4.w,
+                                  minHeight: 4.w,
+                                ),
                                 child: Text(
-                                  'Подключенные устройства',
+                                  _notificationCount > 9
+                                      ? '9+'
+                                      : _notificationCount.toString(),
                                   style: AppTheme
-                                      .lightTheme.textTheme.titleMedium
+                                      .lightTheme.textTheme.labelSmall
                                       ?.copyWith(
+                                    color: Colors.white,
                                     fontWeight: FontWeight.w600,
-                                    color: AppTheme.primaryLight,
+                                    fontSize: 8.sp,
                                   ),
+                                  textAlign: TextAlign.center,
                                 ),
                               ),
-                              TextButton.icon(
-                                onPressed: _pairNewDevice,
-                                icon: CustomIconWidget(
-                                  iconName: 'add',
-                                  color: AppTheme.secondaryLight,
-                                  size: 4.w,
-                                ),
-                                label: const Text('Добавить'),
-                                style: TextButton.styleFrom(
-                                  foregroundColor: AppTheme.secondaryLight,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: _connectedAppliances.length,
-                          itemBuilder: (context, index) {
-                            final appliance = _connectedAppliances[index];
-                            return ApplianceCardWidget(
-                              appliance: appliance,
-                              onTap: () => _handleApplianceTap(appliance),
-                              onSwipeRight: () =>
-                                  _handleApplianceSwipeRight(appliance),
-                              onSwipeLeft: () =>
-                                  _handleApplianceSwipeLeft(appliance),
-                            );
-                          },
-                        ),
-                      ] else ...[
-                        // Empty state
-                        EmptyStateWidget(
-                          onPairDevice: _pairNewDevice,
-                        ),
-                      ],
-
-                      SizedBox(height: 10.h), // Bottom padding for FAB
+                            ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
-              ),
+
+                // Main content
+                Expanded(
+                  child: RefreshIndicator(
+                    onRefresh: _refreshData,
+                    color: AppTheme.secondaryLight,
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 2.h),
+
+                          // Quick actions
+                          if (hasConnectedDevices) ...[
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 3.w, vertical: 0.8.h),
+                              child: Text(
+                                'Быстрые действия',
+                                style: AppTheme.lightTheme.textTheme.titleMedium
+                                    ?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  //color: AppTheme.primaryLight,
+                                  color: AppTheme.textPrimaryDark,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 1.h),
+                            SizedBox(
+                              height: 5.8.h,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 4.w, vertical: 0.3.h),
+                                itemCount: _quickActions.length,
+                                itemBuilder: (context, index) {
+                                  final action = _quickActions[index];
+                                  return QuickActionChipWidget(
+                                    title: action['title'] as String,
+                                    iconName: action['icon'] as String,
+                                    isActive: action['isActive'] as bool,
+                                    onTap: () => _handleQuickActionTap(
+                                        action['title'] as String),
+                                  );
+                                },
+                              ),
+                            ),
+                            SizedBox(height: 2.h),
+                          ],
+
+                          // Active cooking
+                          if (_activeCooking != null) ...[
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 4.w),
+                              child: Text(
+                                'Активная готовка',
+                                style: AppTheme.lightTheme.textTheme.titleMedium
+                                    ?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: AppTheme.textPrimaryDark
+                                ),
+                              ),
+                            ),
+                            ActiveCookingWidget(
+                              activeCooking: _activeCooking,
+                              onPause: _pauseActiveCooking,
+                              onStop: _stopActiveCooking,
+                            ),
+                            SizedBox(height: 2.h),
+                          ],
+
+                          // Connected devices
+                          if (hasConnectedDevices) ...[
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 4.w),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      'Подключенные устройства',
+                                      style: AppTheme
+                                          .lightTheme.textTheme.titleMedium
+                                          ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: AppTheme.textPrimaryDark
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton.icon(
+                                    onPressed: _pairNewDevice,
+                                    icon: CustomIconWidget(
+                                      iconName: 'add',
+                                      color: AppTheme.secondaryLight,
+                                      size: 4.w,
+                                    ),
+                                    label: const Text('Добавить'),
+                                    style: TextButton.styleFrom(
+                                      foregroundColor: AppTheme.secondaryLight,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: _connectedAppliances.length,
+                              itemBuilder: (context, index) {
+                                final appliance = _connectedAppliances[index];
+                                return ApplianceCardWidget(
+                                  appliance: appliance,
+                                  onTap: () => _handleApplianceTap(appliance),
+                                  onSwipeRight: () =>
+                                      _handleApplianceSwipeRight(appliance),
+                                  onSwipeLeft: () =>
+                                      _handleApplianceSwipeLeft(appliance),
+                                );
+                              },
+                            ),
+                          ] else ...[
+                            EmptyStateWidget(
+                              onPairDevice: _pairNewDevice,
+                            ),
+                          ],
+
+                          SizedBox(height: 10.h),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
 
-      // Bottom navigation bar
+      // Bottom navigation
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: AppTheme.surfaceLight.withValues(alpha: 0.95),
@@ -504,7 +523,6 @@ class _HomeDashboardState extends State<HomeDashboard>
           onTap: (index) {
             switch (index) {
               case 0:
-                // Already on home
                 break;
               case 1:
                 Navigator.pushNamed(context, '/recipe-list');
@@ -530,7 +548,6 @@ class _HomeDashboardState extends State<HomeDashboard>
         ),
       ),
 
-      // Floating action button for adding recipes
       floatingActionButton: hasConnectedDevices
           ? FloatingActionButton.extended(
               onPressed: () {
