@@ -14,39 +14,34 @@ class GfgrilApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'GFGRIL',
+      title: 'Gfgril Smart Kitchen',
       theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: const Color(0xFF2E7D32), // Основной зеленый
-        colorScheme: const ColorScheme.light(
-          primary: Color(0xFF2E7D32), // Основной
-          secondary: Color(0xFFF57C00), // Акцентный оранжевый
-          tertiary: Color(0xFF5D4037), // Дополнительный коричневый
-          surface: Colors.white,
-          background: Color(0xFFF5F5F5),
+        brightness: Brightness.dark,
+        primaryColor: const Color(0xFF007AFF), // iOS blue accent
+        colorScheme: const ColorScheme.dark(
+          primary: Color(0xFF007AFF), // iOS blue
+          secondary: Color(0xFF32D74B), // iOS green
+          tertiary: Color(0xFFFF453A), // iOS red
+          surface: Color(0xFF1C1C1E),
+          background: Color(0xFF000000),
+          onBackground: Colors.white,
+          onSurface: Colors.white,
         ),
-        scaffoldBackgroundColor: Colors.transparent,
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.white.withOpacity(0.1), // Полупрозрачный AppBar
-          foregroundColor: const Color(0xFF2E7D32),
+        scaffoldBackgroundColor: const Color(0xFF000000),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.transparent,
           elevation: 0,
           centerTitle: true,
-          titleTextStyle: const TextStyle(
-            color: Color(0xFF2E7D32),
+          titleTextStyle: TextStyle(
+            color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
         ),
-        cardTheme: CardThemeData(
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          backgroundColor: Colors.white.withOpacity(0.1),
-          selectedItemColor: const Color(0xFF2E7D32),
-          unselectedItemColor: Colors.grey,
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Color(0xFF1C1C1E),
+          selectedItemColor: Color(0xFF007AFF),
+          unselectedItemColor: Color(0xFF8E8E93),
           elevation: 0,
         ),
       ),
@@ -73,89 +68,67 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // ✅ Градиентный фон с эффектом глубины
-        Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Theme.of(context).colorScheme.background,
-                Theme.of(context).colorScheme.background.withOpacity(0.9),
-                Theme.of(context).colorScheme.surface.withOpacity(0.8),
-              ],
+    return Scaffold(
+      backgroundColor: const Color(0xFF000000),
+      body: _screens[_currentIndex],
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          color: Color(0xFF1C1C1E),
+          border: Border(
+            top: BorderSide(
+              color: Color(0xFF38383A),
+              width: 0.5,
             ),
           ),
         ),
-
-        // ✅ Стеклянный эффект с размытием
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
-          child: Container(
-            color: Colors.white.withOpacity(0.1),
-          ),
-        ),
-
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          body: _screens[_currentIndex],
-          bottomNavigationBar: GlassMorphism(
-            blur: 20,
-            opacity: 0.1,
-            child: Container(
-              margin: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+        child: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          backgroundColor: const Color(0xFF1C1C1E),
+          selectedItemColor: const Color(0xFF007AFF),
+          unselectedItemColor: const Color(0xFF8E8E93),
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/icons/home.svg',
+                width: 24,
+                height: 24,
+                color: _currentIndex == 0 
+                    ? const Color(0xFF007AFF)
+                    : const Color(0xFF8E8E93),
               ),
-              child: BottomNavigationBar(
-                currentIndex: _currentIndex,
-                onTap: (index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-                items: [
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/icons/home-svgrepo-com.svg',
-                      width: 24,
-                      height: 24,
-                      color: _currentIndex == 0 
-                          ? const Color(0xFF2E7D32)
-                          : Colors.grey,
-                    ),
-                    label: 'Главная',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/icons/fork_knife.svg',
-                      width: 24,
-                      height: 24,
-                      color: _currentIndex == 1 
-                          ? const Color(0xFF2E7D32)
-                          : Colors.grey,
-                    ),
-                    label: 'Рецепты',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: SvgPicture.asset(
-                      'assets/icons/person.svg',
-                      width: 24,
-                      height: 24,
-                      color: _currentIndex == 2 
-                          ? const Color(0xFF2E7D32)
-                          : Colors.grey,
-                    ),
-                    label: 'Поддержка',
-                  ),
-                ],
-              ),
+              label: 'Главная',
             ),
-          ),
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/icons/fork_knife.svg',
+                width: 24,
+                height: 24,
+                color: _currentIndex == 1 
+                    ? const Color(0xFF007AFF)
+                    : const Color(0xFF8E8E93),
+              ),
+              label: 'Рецепты',
+            ),
+            BottomNavigationBarItem(
+              icon: SvgPicture.asset(
+                'assets/icons/person.svg',
+                width: 24,
+                height: 24,
+                color: _currentIndex == 2 
+                    ? const Color(0xFF007AFF)
+                    : const Color(0xFF8E8E93),
+              ),
+              label: 'Поддержка',
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
@@ -165,115 +138,354 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        title: const Text('Главная'),
-        backgroundColor: Colors.transparent,
-        flexibleSpace: GlassMorphism(
-          blur: 20,
-          opacity: 0.1,
-          child: Container(),
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          title: const Text('Моя кухня'),
+          backgroundColor: Colors.transparent,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings_outlined),
+              onPressed: () {},
+            ),
+          ],
         ),
-        actions: [
-          GlassIconButton(
-            icon: Icons.settings_outlined,
-            onPressed: () {},
-          ),
-        ],
+        SliverList(
+          delegate: SliverChildListDelegate([
+            // Статус обновления
+            _buildUpdateCard(),
+            const SizedBox(height: 16),
+            
+            // Сцены
+            _buildScenesSection(),
+            const SizedBox(height: 24),
+            
+            // Климат
+            _buildClimateSection(),
+            const SizedBox(height: 24),
+            
+            // Освещение
+            _buildLightsSection(),
+          ]),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildUpdateCard() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1C1C1E),
+        borderRadius: BorderRadius.circular(12),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
+      child: Row(
         children: [
-          // Заголовок "Устройства"
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: Text(
-              'Устройства',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w600,
-                color: colorScheme.tertiary,
-              ),
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: const Color(0xFF007AFF).withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Icon(
+              Icons.system_update,
+              color: Color(0xFF007AFF),
+              size: 20,
             ),
           ),
-          const SizedBox(height: 16),
-          
-          // Карточки устройств
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GlassDeviceCard(
-                name: 'Комбайн мультиварка GF-KP95',
-                status: 'Подключено',
-                imagePath: 'assets/images/r.jpg',
-                isActive: true,
-              ),
-              GlassDeviceCard(
-                name: 'Аэрогриль GFA-9000',
-                status: 'Неактивно',
-                imagePath: 'assets/images/7634886526.jpg',
-                isActive: false,
-              ),
-            ],
-          ),
-          
-          const SizedBox(height: 32),
-          
-          // Быстрый доступ к рецептам
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Популярные рецепты',
+                const Text(
+                  'Обновление системы',
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: colorScheme.tertiary,
+                    color: Colors.white,
                   ),
                 ),
-                TextButton(
-                  onPressed: () {
-                    // Навигация к экрану рецептов
-                  },
-                  child: Text(
-                    'Все рецепты',
-                    style: TextStyle(
-                      color: colorScheme.primary,
-                      fontWeight: FontWeight.w500,
-                    ),
+                const SizedBox(height: 4),
+                Text(
+                  'Установка...',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.6),
+                    fontSize: 14,
                   ),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 16),
-          
-          // Два популярных рецепта на главной
-          GlassRecipeCard(
-            title: 'Крем-суп из тыквы',
-            description: '15 мин · 3 шага',
-            imagePath: 'assets/images/ZJTC8FrEMdNCsLmJrNdzCA.jpg',
-            color: colorScheme.secondary.withOpacity(0.1),
-            onTap: (context) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const RecipeDetailScreen(
-                    title: 'Крем-суп из тыквы',
-                    steps: [
-                      'Нарежьте тыкву и обжарьте в мультиварке',
-                      'Добавьте воду, соль и специи',
-                      'Измельчите блендером до однородности',
-                    ],
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: const Color(0xFF007AFF),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Text(
+              '1.8V',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildScenesSection() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Сцены',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: _buildSceneCard(
+                  'Блейз',
+                  Icons.local_fire_department,
+                  const Color(0xFFFF453A),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildSceneCard(
+                  'Романтический\nвечер',
+                  Icons.favorite,
+                  const Color(0xFFBF5AF2),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSceneCard(String title, IconData icon, Color color) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1C1C1E),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, color: color, size: 20),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildClimateSection() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Климат',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 12),
+          _buildClimateDevice(
+            'Датчик движения',
+            'Открыт',
+            '13.0°',
+            Icons.motion_photos_auto,
+            const Color(0xFF32D74B),
+          ),
+          const SizedBox(height: 8),
+          _buildClimateDevice(
+            'Умный ароматизатор',
+            'Установлен на 0%',
+            '',
+            Icons.air,
+            const Color(0xFF64D2FF),
+          ),
+          const SizedBox(height: 8),
+          _buildClimateDevice(
+            'Умный термостат',
+            'Выключен',
+            '',
+            Icons.thermostat,
+            const Color(0xFFFF453A),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildClimateDevice(String name, String status, String value, IconData icon, Color color) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1C1C1E),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, color: color, size: 20),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
                   ),
                 ),
-              );
-            },
+                const SizedBox(height: 4),
+                Text(
+                  status,
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.6),
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (value.isNotEmpty)
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLightsSection() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Освещение',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 12),
+          _buildLightDevice('Основное', 'Выкл', Icons.lightbulb, const Color(0xFFFFD60A)),
+          const SizedBox(height: 8),
+          _buildLightDevice('Лента Eve', 'Выкл', Icons.lightbulb_outline, const Color(0xFF32D74B)),
+          const SizedBox(height: 8),
+          _buildLightDevice('Фоновое', 'Выкл', Icons.light, const Color(0xFF64D2FF)),
+          const SizedBox(height: 8),
+          _buildLightDevice('Градиент Hue', 'Выкл', Icons.gradient, const Color(0xFFBF5AF2)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLightDevice(String name, String status, IconData icon, Color color) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1C1C1E),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, color: color, size: 20),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              name,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          Text(
+            status,
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.6),
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(
+              Icons.chevron_right,
+              color: Colors.white.withOpacity(0.6),
+              size: 20,
+            ),
           ),
         ],
       ),
@@ -286,107 +498,130 @@ class RecipesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        title: const Text('Рецепты'),
-        backgroundColor: Colors.transparent,
-        flexibleSpace: GlassMorphism(
-          blur: 20,
-          opacity: 0.1,
-          child: Container(),
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          title: const Text('Рецепты'),
+          backgroundColor: Colors.transparent,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {},
+            ),
+          ],
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          // Поиск и фильтры
-          GlassMorphism(
-            blur: 10,
-            opacity: 0.2,
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Поиск рецептов...',
-                prefixIcon: const Icon(Icons.search),
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.all(16),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                color: const Color(0xFF1C1C1E),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Поиск рецептов...',
+                  hintStyle: TextStyle(color: Colors.white.withOpacity(0.6)),
+                  prefixIcon: Icon(Icons.search, color: Colors.white.withOpacity(0.6)),
+                  border: InputBorder.none,
+                ),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ),
-          const SizedBox(height: 16),
-          
-          // Список рецептов
-          GlassRecipeCard(
-            title: 'Крем-суп из тыквы',
-            description: '15 мин · 3 шага',
-            imagePath: 'assets/images/ZJTC8FrEMdNCsLmJrNdzCA.jpg',
-            color: colorScheme.secondary.withOpacity(0.1),
-            onTap: (context) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const RecipeDetailScreen(
-                    title: 'Крем-суп из тыквы',
-                    steps: [
-                      'Нарежьте тыкву и обжарьте в мультиварке',
-                      'Добавьте воду, соль и специи',
-                      'Измельчите блендером до однородности',
-                    ],
-                  ),
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              final recipes = [
+                {
+                  'title': 'Крем-суп из тыквы',
+                  'time': '15 мин',
+                  'steps': '3 шага',
+                  'color': const Color(0xFFFF453A),
+                },
+                {
+                  'title': 'Овсянка с ягодами',
+                  'time': '10 мин',
+                  'steps': '2 шага',
+                  'color': const Color(0xFF32D74B),
+                },
+                {
+                  'title': 'Смузи из банана',
+                  'time': '5 мин',
+                  'steps': '1 шаг',
+                  'color': const Color(0xFF007AFF),
+                },
+              ];
+              final recipe = recipes[index];
+              return Container(
+                margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1C1C1E),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: recipe['color'] as Color,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Icon(
+                        Icons.restaurant_menu,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            recipe['title'] as String,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '${recipe['time']} · ${recipe['steps']}',
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.6),
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Icon(
+                        Icons.chevron_right,
+                        color: Colors.white.withOpacity(0.6),
+                        size: 20,
+                      ),
+                    ),
+                  ],
                 ),
               );
             },
+            childCount: 3,
           ),
-          GlassRecipeCard(
-            title: 'Овсянка с ягодами',
-            description: '10 мин · 2 шага',
-            imagePath: 'assets/images/nutritious-overnight-oatmeal-with-mixed-berries-p0ubg77ox7m6h6iv.jpg',
-            color: colorScheme.primary.withOpacity(0.1),
-            onTap: (context) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const RecipeDetailScreen(
-                    title: 'Овсянка с ягодами',
-                    steps: [
-                      'Залейте овсянку молоком и разогрейте',
-                      'Добавьте ягоды и мёд по вкусу',
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-          GlassRecipeCard(
-            title: 'Смузи из банана',
-            description: '5 мин · 1 шаг',
-            imagePath: 'assets/images/smoothie.jpg',
-            color: colorScheme.secondary.withOpacity(0.1),
-            onTap: (context) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const RecipeDetailScreen(
-                    title: 'Смузи из банана',
-                    steps: [
-                      'Смешайте все ингредиенты в блендере',
-                      'Взбивайте до однородной консистенции',
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -396,496 +631,158 @@ class SupportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        title: const Text('Поддержка'),
-        backgroundColor: Colors.transparent,
-        flexibleSpace: GlassMorphism(
-          blur: 20,
-          opacity: 0.1,
-          child: Container(),
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          title: const Text('Поддержка'),
+          backgroundColor: Colors.transparent,
         ),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          // Контактная информация
-          GlassMorphism(
-            blur: 15,
-            opacity: 0.2,
-            child: Container(
-              padding: const EdgeInsets.all(20),
+        SliverList(
+          delegate: SliverChildListDelegate([
+            Padding(
+              padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  Icon(
-                    Icons.support_agent,
-                    size: 64,
-                    color: colorScheme.primary,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Служба поддержки',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color: colorScheme.tertiary,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Мы всегда готовы помочь вам',
-                    style: TextStyle(
-                      color: colorScheme.tertiary.withOpacity(0.6),
-                      fontSize: 16,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          
-          // Способы связи
-          GlassMorphism(
-            blur: 15,
-            opacity: 0.2,
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Свяжитесь с нами',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: colorScheme.tertiary,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  _buildContactItem(
-                    context,
-                    Icons.phone,
-                    'Телефон',
-                    '+7 (999) 123-45-67',
-                    colorScheme.primary,
-                  ),
-                  const SizedBox(height: 12),
-                  _buildContactItem(
-                    context,
-                    Icons.email,
-                    'Email',
-                    'support@gfgril.com',
-                    colorScheme.secondary,
-                  ),
-                  const SizedBox(height: 12),
-                  _buildContactItem(
-                    context,
-                    Icons.chat,
-                    'Онлайн-чат',
-                    'Круглосуточно',
-                    colorScheme.primary,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildContactItem(BuildContext context, IconData icon, String title, String subtitle, Color color) {
-    return ListTile(
-      leading: GlassMorphism(
-        blur: 8,
-        opacity: 0.3,
-        child: Container(
-          width: 48,
-          height: 48,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-          ),
-          child: Icon(icon, color: color),
-        ),
-      ),
-      title: Text(
-        title,
-        style: const TextStyle(
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      subtitle: Text(subtitle),
-      onTap: () {
-        // Действие при нажатии
-      },
-    );
-  }
-}
-
-// ✅ Компонент для стеклянного эффекта
-class GlassMorphism extends StatelessWidget {
-  final double blur;
-  final double opacity;
-  final Widget child;
-
-  const GlassMorphism({
-    super.key,
-    required this.blur,
-    required this.opacity,
-    required this.child,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(opacity),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: Colors.white.withOpacity(0.2),
-              width: 1,
-            ),
-          ),
-          child: child,
-        ),
-      ),
-    );
-  }
-}
-
-// ✅ Стеклянная карточка устройства
-class GlassDeviceCard extends StatelessWidget {
-  final String name;
-  final String status;
-  final String imagePath;
-  final bool isActive;
-
-  const GlassDeviceCard({
-    super.key,
-    required this.name,
-    required this.status,
-    required this.imagePath,
-    required this.isActive,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return GlassMorphism(
-      blur: 15,
-      opacity: 0.2,
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.42,
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            // Изображение устройства
-            Container(
-              height: 100,
-              decoration: BoxDecoration(
-                color: isActive 
-                    ? colorScheme.primary.withOpacity(0.1)
-                    : Colors.grey.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Center(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.asset(
-                    imagePath,
-                    height: 70,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Icon(
-                      Icons.kitchen,
-                      size: 50,
-                      color: isActive ? colorScheme.primary : Colors.grey,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            
-            const SizedBox(height: 12),
-            
-            // Информация об устройстве
-            Text(
-              name,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: colorScheme.tertiary,
-              ),
-            ),
-            const SizedBox(height: 6),
-            GlassMorphism(
-              blur: 10,
-              opacity: 0.3,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                child: Text(
-                  status,
-                  style: TextStyle(
-                    color: isActive ? colorScheme.primary : Colors.grey,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ✅ Стеклянная карточка рецепта
-class GlassRecipeCard extends StatelessWidget {
-  final String title;
-  final String description;
-  final String imagePath;
-  final Color color;
-  final Function(BuildContext) onTap;
-
-  const GlassRecipeCard({
-    super.key,
-    required this.title,
-    required this.description,
-    required this.imagePath,
-    required this.onTap,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return GestureDetector(
-      onTap: () => onTap(context),
-      child: GlassMorphism(
-        blur: 15,
-        opacity: 0.2,
-        child: Container(
-          margin: const EdgeInsets.only(bottom: 16),
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            children: [
-              // Изображение рецепта
-              GlassMorphism(
-                blur: 10,
-                opacity: 0.3,
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: color,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.asset(
-                      imagePath,
-                      width: 80,
-                      height: 80,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Icon(
-                        Icons.restaurant_menu,
-                        size: 30,
-                        color: colorScheme.primary,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              
-              const SizedBox(width: 16),
-              
-              // Информация о рецепте
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: colorScheme.tertiary,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      description,
-                      style: TextStyle(
-                        color: colorScheme.tertiary.withOpacity(0.6),
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              
-              // Стрелка
-              GlassMorphism(
-                blur: 8,
-                opacity: 0.3,
-                child: Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.transparent,
-                  ),
-                  child: Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 16,
-                    color: colorScheme.tertiary.withOpacity(0.7),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ✅ Стеклянная кнопка с иконкой
-class GlassIconButton extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback onPressed;
-
-  const GlassIconButton({
-    super.key,
-    required this.icon,
-    required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GlassMorphism(
-        blur: 10,
-        opacity: 0.2,
-        child: IconButton(
-          icon: Icon(icon),
-          color: colorScheme.tertiary,
-          onPressed: onPressed,
-        ),
-      ),
-    );
-  }
-}
-
-class RecipeDetailScreen extends StatelessWidget {
-  final String title;
-  final List<String> steps;
-
-  const RecipeDetailScreen({super.key, required this.title, required this.steps});
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-        backgroundColor: Colors.transparent,
-        flexibleSpace: GlassMorphism(
-          blur: 20,
-          opacity: 0.1,
-          child: Container(),
-        ),
-        foregroundColor: colorScheme.primary,
-      ),
-      body: Stack(
-        children: [
-          // Фон с размытием
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  colorScheme.background,
-                  colorScheme.background.withOpacity(0.9),
-                  colorScheme.surface.withOpacity(0.8),
-                ],
-              ),
-            ),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
-              child: Container(color: Colors.white.withOpacity(0.1)),
-            ),
-          ),
-
-          ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: steps.length,
-            itemBuilder: (context, index) {
-              return Container(
-                margin: const EdgeInsets.only(bottom: 12),
-                child: GlassMorphism(
-                  blur: 15,
-                  opacity: 0.2,
-                  child: Padding(
+                  // Контактная информация
+                  Container(
                     padding: const EdgeInsets.all(20),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF1C1C1E),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
                       children: [
-                        // Номер шага
-                        GlassMorphism(
-                          blur: 8,
-                          opacity: 0.3,
-                          child: Container(
-                            width: 32,
-                            height: 32,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: Text(
-                                '${index + 1}',
-                                style: TextStyle(
-                                  color: colorScheme.primary,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ),
+                        Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF007AFF).withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          child: const Icon(
+                            Icons.support_agent,
+                            size: 40,
+                            color: Color(0xFF007AFF),
                           ),
                         ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Text(
-                            steps[index],
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: colorScheme.tertiary,
-                              height: 1.4,
-                            ),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'Служба поддержки',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
                           ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Мы всегда готовы помочь вам',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.6),
+                            fontSize: 16,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
                       ],
                     ),
                   ),
+                  const SizedBox(height: 20),
+                  
+                  // Способы связи
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF1C1C1E),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Свяжитесь с нами',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        _buildContactItem(
+                          Icons.phone,
+                          'Телефон',
+                          '+7 (999) 123-45-67',
+                          const Color(0xFF32D74B),
+                        ),
+                        const SizedBox(height: 12),
+                        _buildContactItem(
+                          Icons.email,
+                          'Email',
+                          'support@gfgril.com',
+                          const Color(0xFF007AFF),
+                        ),
+                        const SizedBox(height: 12),
+                        _buildContactItem(
+                          Icons.chat,
+                          'Онлайн-чат',
+                          'Круглосуточно',
+                          const Color(0xFFFFD60A),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ]),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildContactItem(IconData icon, String title, String subtitle, Color color) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.3),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, color: color, size: 20),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
                 ),
-              );
-            },
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.6),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Icon(
+            Icons.chevron_right,
+            color: Colors.white.withOpacity(0.6),
+            size: 20,
           ),
         ],
       ),
