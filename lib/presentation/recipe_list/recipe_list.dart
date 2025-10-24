@@ -40,7 +40,7 @@ class _RecipeListState extends State<RecipeList> with TickerProviderStateMixin {
       "description":
           "Традиционный традиционный борщ с говядиной и свежей капустой. Идеально подходит для семейного обеда.",
       "image":
-          "https://images.unsplash.com/photo-1606063948261-95e16cac679e.jpg",
+          "https://app-v3.bnbhost.ru/photo-1606063948261-95e16cac679e.jpg",
       "semanticLabel":
           "Тарелка красного борща с говядиной, капустой и сметаной на деревянном столе",
       "cookingTime": 90,
@@ -59,7 +59,7 @@ class _RecipeListState extends State<RecipeList> with TickerProviderStateMixin {
       "description":
           "Ароматный плов с бараниной, морковью и специями. Готовится в мультиварке для идеального результата.",
       "image":
-          "https://images.unsplash.com/photo-1708269291204-70f0d4677244.jpg",
+          "https://app-v3.bnbhost.ru/photo-1708269291204-70f0d4677244.jpg",
       "semanticLabel":
           "Тарелка узбекского плова с рисом, мясом и морковью, украшенная зеленью",
       "cookingTime": 120,

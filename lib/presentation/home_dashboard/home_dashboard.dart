@@ -335,7 +335,7 @@ class _HomeDashboardState extends State<HomeDashboard>
                       // Quick actions
                       if (hasConnectedDevices) ...[
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 4.w),
+                          padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 0.8.h),
                           child: Text(
                             'Быстрые действия',
                             style: AppTheme.lightTheme.textTheme.titleMedium
@@ -347,10 +347,10 @@ class _HomeDashboardState extends State<HomeDashboard>
                         ),
                         SizedBox(height: 1.h),
                         SizedBox(
-                          height: 7.h,
+                          height: 5.8.h,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            padding: EdgeInsets.symmetric(horizontal: 4.w),
+                            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 0.3.h),
                             itemCount: _quickActions.length,
                             itemBuilder: (context, index) {
                               final action = _quickActions[index];

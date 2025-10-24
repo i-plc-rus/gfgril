@@ -39,7 +39,7 @@ class _DeviceListWidgetState extends State<DeviceListWidget> {
         'batteryLevel': 85,
         'lastSeen': DateTime.now().subtract(Duration(seconds: 30)),
         'image':
-            'https://images.unsplash.com/photo-1722650271178-9f340c11fc3b',
+            'https://app-v3.bnbhost.ru/photo-1722650271178-9f340c11fc3b',
         'semanticLabel':
             'Modern electric multicooker with digital display and stainless steel finish on white background',
       },
@@ -53,7 +53,7 @@ class _DeviceListWidgetState extends State<DeviceListWidget> {
         'batteryLevel': 92,
         'lastSeen': DateTime.now().subtract(Duration(minutes: 2)),
         'image':
-            'https://images.unsplash.com/photo-1651732898760-c9b17e3b019e',
+            'https://app-v3.bnbhost.ru/photo-1651732898760-c9b17e3b019e',
         'semanticLabel':
             'Professional food processor with multiple attachments and clear mixing bowl on kitchen counter',
       },
@@ -67,7 +67,7 @@ class _DeviceListWidgetState extends State<DeviceListWidget> {
         'batteryLevel': 23,
         'lastSeen': DateTime.now().subtract(Duration(minutes: 15)),
         'image':
-            'https://images.unsplash.com/photo-1649065709781-02a3b9dc3226',
+            'https://app-v3.bnbhost.ru/photo-1649065709781-02a3b9dc3226',
         'semanticLabel':
             'High-speed blender with glass pitcher and touch control panel on marble kitchen surface',
       },
