@@ -1,5 +1,6 @@
 // Flutter main UI file for Gfgril app
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:ui';
 
 void main() {
@@ -42,19 +43,36 @@ class GfgrilApp extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
           ),
         ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: Colors.white.withOpacity(0.1),
+          selectedItemColor: const Color(0xFF2E7D32),
+          unselectedItemColor: Colors.grey,
+          elevation: 0,
+        ),
       ),
-      home: const HomeScreen(),
+      home: const MainNavigationScreen(),
     );
   }
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class MainNavigationScreen extends StatefulWidget {
+  const MainNavigationScreen({super.key});
+
+  @override
+  State<MainNavigationScreen> createState() => _MainNavigationScreenState();
+}
+
+class _MainNavigationScreenState extends State<MainNavigationScreen> {
+  int _currentIndex = 0;
+
+  final List<Widget> _screens = [
+    const HomeScreen(),
+    const RecipesScreen(),
+    const SupportScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return Stack(
       children: [
         // ✅ Градиентный фон с эффектом глубины
@@ -64,9 +82,9 @@ class HomeScreen extends StatelessWidget {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                colorScheme.background,
-                colorScheme.background.withOpacity(0.9),
-                colorScheme.surface.withOpacity(0.8),
+                Theme.of(context).colorScheme.background,
+                Theme.of(context).colorScheme.background.withOpacity(0.9),
+                Theme.of(context).colorScheme.surface.withOpacity(0.8),
               ],
             ),
           ),
@@ -82,119 +100,429 @@ class HomeScreen extends StatelessWidget {
 
         Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            title: const Text('GFGRIL - главная'),
-            backgroundColor: Colors.transparent, // Прозрачный AppBar
-            flexibleSpace: GlassMorphism( // Стеклянный эффект для AppBar
-              blur: 20,
-              opacity: 0.1,
-              child: Container(),
-            ),
-            actions: [
-              GlassIconButton(
-                icon: Icons.settings_outlined,
-                onPressed: () {},
+          body: _screens[_currentIndex],
+          bottomNavigationBar: GlassMorphism(
+            blur: 20,
+            opacity: 0.1,
+            child: Container(
+              margin: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
               ),
-            ],
-          ),
-          body: ListView(
-            padding: const EdgeInsets.all(16.0),
-            children: [
-              // Заголовок "Устройства"
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: Text(
-                  'Мои устройства',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.tertiary,
+              child: BottomNavigationBar(
+                currentIndex: _currentIndex,
+                onTap: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+                items: [
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/icons/home-svgrepo-com.svg',
+                      width: 24,
+                      height: 24,
+                      color: _currentIndex == 0 
+                          ? const Color(0xFF2E7D32)
+                          : Colors.grey,
+                    ),
+                    label: 'Главная',
                   ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              
-              // Карточки устройств
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GlassDeviceCard(
-                    name: 'Комбайн мультиварка GF-KP95',
-                    status: 'Подключено',
-                    imagePath: 'assets/images/r.jpg',
-                    isActive: true,
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/icons/fork_knife.svg',
+                      width: 24,
+                      height: 24,
+                      color: _currentIndex == 1 
+                          ? const Color(0xFF2E7D32)
+                          : Colors.grey,
+                    ),
+                    label: 'Рецепты',
                   ),
-                  GlassDeviceCard(
-                    name: 'Аэрогриль GFA-9000',
-                    status: 'Неактивно',
-                    imagePath: 'assets/images/7634886526.jpg',
-                    isActive: false,
+                  BottomNavigationBarItem(
+                    icon: SvgPicture.asset(
+                      'assets/icons/person.svg',
+                      width: 24,
+                      height: 24,
+                      color: _currentIndex == 2 
+                          ? const Color(0xFF2E7D32)
+                          : Colors.grey,
+                    ),
+                    label: 'Поддержка',
                   ),
                 ],
               ),
-              
-              const SizedBox(height: 32),
-              
-              // Заголовок "Рецепты"
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: Text(
-                  'Новые рецепты',
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        title: const Text('Главная'),
+        backgroundColor: Colors.transparent,
+        flexibleSpace: GlassMorphism(
+          blur: 20,
+          opacity: 0.1,
+          child: Container(),
+        ),
+        actions: [
+          GlassIconButton(
+            icon: Icons.settings_outlined,
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: [
+          // Заголовок "Устройства"
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Text(
+              'Устройства',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w600,
+                color: colorScheme.tertiary,
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          
+          // Карточки устройств
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GlassDeviceCard(
+                name: 'Комбайн мультиварка GF-KP95',
+                status: 'Подключено',
+                imagePath: 'assets/images/r.jpg',
+                isActive: true,
+              ),
+              GlassDeviceCard(
+                name: 'Аэрогриль GFA-9000',
+                status: 'Неактивно',
+                imagePath: 'assets/images/7634886526.jpg',
+                isActive: false,
+              ),
+            ],
+          ),
+          
+          const SizedBox(height: 32),
+          
+          // Быстрый доступ к рецептам
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Популярные рецепты',
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
                     color: colorScheme.tertiary,
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              
-              // Карточки рецептов
-              GlassRecipeCard(
-                title: 'Крем-суп из тыквы',
-                description: '15 мин · 3 шага',
-                imagePath: 'assets/images/ZJTC8FrEMdNCsLmJrNdzCA.jpg',
-                color: colorScheme.secondary.withOpacity(0.1),
-                onTap: (context) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const RecipeDetailScreen(
-                        title: 'Крем-суп из тыквы',
-                        steps: [
-                          'Нарежьте тыкву и обжарьте в мультиварке',
-                          'Добавьте воду, соль и специи',
-                          'Измельчите блендером до однородности',
-                        ],
-                      ),
+                TextButton(
+                  onPressed: () {
+                    // Навигация к экрану рецептов
+                  },
+                  child: Text(
+                    'Все рецепты',
+                    style: TextStyle(
+                      color: colorScheme.primary,
+                      fontWeight: FontWeight.w500,
                     ),
-                  );
-                },
-              ),
-              GlassRecipeCard(
-                title: 'Овсянка с ягодами',
-                description: '10 мин · 2 шага',
-                imagePath: 'assets/images/nutritious-overnight-oatmeal-with-mixed-berries-p0ubg77ox7m6h6iv.jpg',
-                color: colorScheme.primary.withOpacity(0.1),
-                onTap: (context) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const RecipeDetailScreen(
-                        title: 'Овсянка с ягодами',
-                        steps: [
-                          'Залейте овсянку молоком и разогрейте',
-                          'Добавьте ягоды и мёд по вкусу',
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ],
+                  ),
+                ),
+              ],
+            ),
           ),
+          const SizedBox(height: 16),
+          
+          // Два популярных рецепта на главной
+          GlassRecipeCard(
+            title: 'Крем-суп из тыквы',
+            description: '15 мин · 3 шага',
+            imagePath: 'assets/images/ZJTC8FrEMdNCsLmJrNdzCA.jpg',
+            color: colorScheme.secondary.withOpacity(0.1),
+            onTap: (context) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const RecipeDetailScreen(
+                    title: 'Крем-суп из тыквы',
+                    steps: [
+                      'Нарежьте тыкву и обжарьте в мультиварке',
+                      'Добавьте воду, соль и специи',
+                      'Измельчите блендером до однородности',
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class RecipesScreen extends StatelessWidget {
+  const RecipesScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        title: const Text('Рецепты'),
+        backgroundColor: Colors.transparent,
+        flexibleSpace: GlassMorphism(
+          blur: 20,
+          opacity: 0.1,
+          child: Container(),
         ),
-      ],
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: [
+          // Поиск и фильтры
+          GlassMorphism(
+            blur: 10,
+            opacity: 0.2,
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Поиск рецептов...',
+                prefixIcon: const Icon(Icons.search),
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.all(16),
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          
+          // Список рецептов
+          GlassRecipeCard(
+            title: 'Крем-суп из тыквы',
+            description: '15 мин · 3 шага',
+            imagePath: 'assets/images/ZJTC8FrEMdNCsLmJrNdzCA.jpg',
+            color: colorScheme.secondary.withOpacity(0.1),
+            onTap: (context) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const RecipeDetailScreen(
+                    title: 'Крем-суп из тыквы',
+                    steps: [
+                      'Нарежьте тыкву и обжарьте в мультиварке',
+                      'Добавьте воду, соль и специи',
+                      'Измельчите блендером до однородности',
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+          GlassRecipeCard(
+            title: 'Овсянка с ягодами',
+            description: '10 мин · 2 шага',
+            imagePath: 'assets/images/nutritious-overnight-oatmeal-with-mixed-berries-p0ubg77ox7m6h6iv.jpg',
+            color: colorScheme.primary.withOpacity(0.1),
+            onTap: (context) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const RecipeDetailScreen(
+                    title: 'Овсянка с ягодами',
+                    steps: [
+                      'Залейте овсянку молоком и разогрейте',
+                      'Добавьте ягоды и мёд по вкусу',
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+          GlassRecipeCard(
+            title: 'Смузи из банана',
+            description: '5 мин · 1 шаг',
+            imagePath: 'assets/images/smoothie.jpg',
+            color: colorScheme.secondary.withOpacity(0.1),
+            onTap: (context) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const RecipeDetailScreen(
+                    title: 'Смузи из банана',
+                    steps: [
+                      'Смешайте все ингредиенты в блендере',
+                      'Взбивайте до однородной консистенции',
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SupportScreen extends StatelessWidget {
+  const SupportScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        title: const Text('Поддержка'),
+        backgroundColor: Colors.transparent,
+        flexibleSpace: GlassMorphism(
+          blur: 20,
+          opacity: 0.1,
+          child: Container(),
+        ),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: [
+          // Контактная информация
+          GlassMorphism(
+            blur: 15,
+            opacity: 0.2,
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.support_agent,
+                    size: 64,
+                    color: colorScheme.primary,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Служба поддержки',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: colorScheme.tertiary,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Мы всегда готовы помочь вам',
+                    style: TextStyle(
+                      color: colorScheme.tertiary.withOpacity(0.6),
+                      fontSize: 16,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          
+          // Способы связи
+          GlassMorphism(
+            blur: 15,
+            opacity: 0.2,
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Свяжитесь с нами',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: colorScheme.tertiary,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  _buildContactItem(
+                    context,
+                    Icons.phone,
+                    'Телефон',
+                    '+7 (999) 123-45-67',
+                    colorScheme.primary,
+                  ),
+                  const SizedBox(height: 12),
+                  _buildContactItem(
+                    context,
+                    Icons.email,
+                    'Email',
+                    'support@gfgril.com',
+                    colorScheme.secondary,
+                  ),
+                  const SizedBox(height: 12),
+                  _buildContactItem(
+                    context,
+                    Icons.chat,
+                    'Онлайн-чат',
+                    'Круглосуточно',
+                    colorScheme.primary,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContactItem(BuildContext context, IconData icon, String title, String subtitle, Color color) {
+    return ListTile(
+      leading: GlassMorphism(
+        blur: 8,
+        opacity: 0.3,
+        child: Container(
+          width: 48,
+          height: 48,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon, color: color),
+        ),
+      ),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      subtitle: Text(subtitle),
+      onTap: () {
+        // Действие при нажатии
+      },
     );
   }
 }
