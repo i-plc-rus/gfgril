@@ -1,6 +1,6 @@
 {
-    "name": "gfgril",
-    "short_name": "gfgril",
+    "name": "gfgril_smart_kitchen",
+    "short_name": "gfgril_smart_kitchen",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
